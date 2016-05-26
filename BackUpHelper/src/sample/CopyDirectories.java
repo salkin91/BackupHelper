@@ -2,9 +2,12 @@ package sample;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 
 public class CopyDirectories  {
@@ -34,22 +37,41 @@ public class CopyDirectories  {
         }
         File source;
         File target;
+        Long[] timestamps = new Long[paths.length/2];
+        try{
+            timestamps = cd.readTimeStamp();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
         int j = 0;
+        int i = 0;
+
+        File timeStampFile = new File(System.getProperty("user.home") + File.separator + "BackUpHelper" + File.separator + "timestamps.txt");
+        if(timeStampFile.exists()){
+            timeStampFile.delete();
+        }
         while( j < paths.length && paths[j] != null) {
             source = new File(paths[j]);
             target = new File(paths[j + 1] + File.separator + dateFormat.format(date));
-            
-            try {
-                Files.createDirectory(target.toPath());
-            } catch (IOException e) {
+            try{
+                cd.writeTimeStamp(source, timeStampFile);
+            }catch (IOException e){
                 e.printStackTrace();
             }
+            if(timestamps[i] != source.lastModified()){
+                try {
+                    Files.createDirectory(target.toPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-            try {
-                cd.copyDirectory(source, target);
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    cd.copyDirectory(source, target);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            i++;
             j += 2;
         }
     }
@@ -69,7 +91,6 @@ public class CopyDirectories  {
             InputStream in = new FileInputStream(source);
             OutputStream out = new FileOutputStream(target);
 
-            // Copy the bits from instream to outstream
             byte[] buf = new byte[1024];
             int len;
             while ((len = in.read(buf)) > 0) {
@@ -78,5 +99,27 @@ public class CopyDirectories  {
             in.close();
             out.close();
         }
+    }
+    private void writeTimeStamp(File source, File timeStamp) throws IOException{
+        if(!timeStamp.exists()){
+            Files.createFile(timeStamp.toPath());
+        }
+        Long lastModified = source.lastModified();
+        lastModified.toString();
+        List<String> lines = Arrays.asList(lastModified.toString());
+        Files.write(timeStamp.toPath(), lines, StandardOpenOption.APPEND);
+    }
+    private Long[] readTimeStamp() throws IOException{
+        Long[] ts = new Long[50];
+        File timeStamp = new File(System.getProperty("user.home") + File.separator + "BackUpHelper" + File.separator + "timestamps.txt");
+        BufferedReader br = new BufferedReader(new FileReader(timeStamp));
+        String line = null;
+        int i = 0;
+        while ((line = br.readLine()) != null) {
+            ts[i] = Long.parseLong(line);
+            i++;
+        }
+        br.close();
+        return ts;
     }
 }
