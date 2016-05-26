@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="364.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <Button fx:id="okey" layoutX="503.0" layoutY="270.0" mnemonicParsing="false" onMouseClicked="#generateFiles" text="Okey" />
+      <Button layoutX="575.0" layoutY="270.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="chooseSource" layoutX="578.0" layoutY="113.0" mnemonicParsing="false" onAction="#chooseSourceFolder" text="Open" />
+      <Button fx:id="chooseTarget" layoutX="578.0" layoutY="177.0" mnemonicParsing="false" onAction="#chooseTargetFolder" text="Open" />
+      <TextField fx:id="sourcePath" layoutX="83.0" layoutY="113.0" prefHeight="25.0" prefWidth="464.0" />
+      <TextField fx:id="targetPath" layoutX="83.0" layoutY="177.0" prefHeight="25.0" prefWidth="464.0" />
+      <Label layoutX="83.0" layoutY="83.0" prefHeight="17.0" prefWidth="151.0" text="Source Folder" />
+      <Label layoutX="83.0" layoutY="151.0" text="Target Folder" />
+      <Label fx:id="prompt" layoutX="83.0" layoutY="223.0" prefHeight="17.0" prefWidth="251.0" />
+   </children>
+</Pane>
