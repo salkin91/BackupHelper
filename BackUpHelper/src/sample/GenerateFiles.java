@@ -12,11 +12,15 @@ import java.util.List;
  */
 public class GenerateFiles {
     String user = System.getProperty("user.home");
+    String os = System.getProperty("os.name");
     String projectFolder = "BackUpHelper";
     File txt;
     public void generateFiles(String source, String target) throws IOException{
         makeProjectFolder();
-        makeRunFile();
+        if(os.indexOf("win") >= 0){
+            makeRunFileWin();
+        }
+        else makeRunFileUnix();
         writePathTXT(source, target);
         writeTimeStamp(source);
         makeJavaFile();
@@ -32,20 +36,29 @@ public class GenerateFiles {
         }
     }
 
-    private void makeRunFile() throws IOException{
+    private void makeRunFileWin() throws IOException{
 
         File run = new File(user+ File.separator + projectFolder + File.separator + "run.bat");
         if(!run.exists()){
-            List<String> lines = Arrays.asList("@echo off","javac CopyDirectories.java"
-                    , "javaw CopyDirectories", "exit");
+            List<String> lines = Arrays.asList("@echo off","javac CopyDirectories.java",
+                    ":start","javaw CopyDirectories",
+                    "TIMEOUT /T 60 /NOBREAK", "goto start");
             Files.createFile(run.toPath());
             Files.write(run.toPath(), lines, Charset.forName("UTF-8"));
         }
 
     }
+    private void makeRunFileUnix() throws IOException{
+        File run = new File(user+ File.separator + projectFolder + File.separator + "run.sh");
+        if(!run.exists()){
+            List<String> lines = Arrays.asList("#!/bin/bash", "javac CopyDirectories.java",
+                    "while true", "do", "java CopyDirectories", "sleep 60", "done");
+            Files.createFile(run.toPath());
+            Files.write(run.toPath(), lines, Charset.forName("UTF-8"));
+        }
+    }
 
     private void makeJavaFile() throws IOException{
-        System.out.println(System.getProperty("user.dir"));
         File javaFile = new File(user + File.separator + projectFolder +File.separator + "CopyDirectories.java");
         if(!javaFile.exists()) {
                List<String> lines = Arrays.asList("import java.io.*;", "import java.nio.file.Files;", "import java.nio.file.StandardOpenOption;",
@@ -77,7 +90,7 @@ public class GenerateFiles {
                        "            j += 2;", "        }", "    }", "    private void copyDirectory(File source, File target) throws IOException {",
                        "        if (source.isDirectory()) {", "            if (!target.exists()) {", "                target.mkdir();", "            }",
                        "            String[] sourceChild = source.list();", "            for (int i = 0; i < sourceChild.length; i++) {",
-                       "                System.out.println(sourceChild[i]);", "                copyDirectory(new File(source, sourceChild[i]),",
+                       "                copyDirectory(new File(source, sourceChild[i]),",
                        "                        new File(target, sourceChild[i]));", "            }", "        } else {", "            InputStream in = new FileInputStream(source);",
                        "            OutputStream out = new FileOutputStream(target);", "            byte[] buf = new byte[1024];",
                        "            int len;", "            while ((len = in.read(buf)) > 0) {", "                out.write(buf, 0, len);",

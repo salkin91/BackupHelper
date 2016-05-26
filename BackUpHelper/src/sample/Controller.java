@@ -38,7 +38,6 @@ public class Controller {
     }
     private String getFolder(){
         Main main = new Main();
-        System.out.println("Get folder");
         DirectoryChooser folder = new DirectoryChooser();
         folder.setInitialDirectory(new File(System.getProperty("user.home")));
         folder.setTitle("BackupHelper");
