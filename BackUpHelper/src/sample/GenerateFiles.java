@@ -13,7 +13,7 @@ import java.util.List;
 public class GenerateFiles {
     String user = System.getProperty("user.home");
     String os = System.getProperty("os.name");
-    String projectFolder = "BackUpHelper";
+    String projectFolder = "BackupHelper";
     String projectSubFolder = "bin";
     File txt;
     public void generateFiles(String source, String target) throws IOException{
@@ -80,7 +80,7 @@ public class GenerateFiles {
             int readBytes;
             byte[] buffer = new byte[4096];
             resStreamOut = new FileOutputStream(System.getProperty("user.home") + File.separator +
-                    "BackUpHelper" + File.separator + projectSubFolder + File.separator + resourceName);
+                    projectFolder + File.separator + projectSubFolder + File.separator + resourceName);
             while ((readBytes = stream.read(buffer)) > 0) {
                 resStreamOut.write(buffer, 0, readBytes);
             }

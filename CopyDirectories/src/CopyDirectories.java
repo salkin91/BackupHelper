@@ -14,7 +14,7 @@ public class CopyDirectories  {
 
     public static void main(String[] args) {
         String user = System.getProperty("user.home");
-        String projectFolder = "BackUpHelper" + File.separator + "bin";
+        String projectFolder = "BackupHelper" + File.separator + "bin";
         File txt;
         String[] paths = new String[50];
         CopyDirectories cd = new CopyDirectories();

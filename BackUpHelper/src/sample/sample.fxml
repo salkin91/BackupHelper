@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -12,12 +13,17 @@
    <children>
       <Button fx:id="okey" layoutX="503.0" layoutY="270.0" mnemonicParsing="false" onMouseClicked="#generateFiles" text="OK" />
       <Button layoutX="575.0" layoutY="270.0" mnemonicParsing="false" text="Cancel" />
-      <Button fx:id="chooseSource" layoutX="578.0" layoutY="113.0" mnemonicParsing="false" onAction="#chooseSourceFolder" text="Open" />
-      <Button fx:id="chooseTarget" layoutX="578.0" layoutY="177.0" mnemonicParsing="false" onAction="#chooseTargetFolder" text="Open" />
+      <Button fx:id="chooseSource" layoutX="578.0" layoutY="113.0" mnemonicParsing="false" onAction="#chooseSourceFolder" text="Select" />
+      <Button fx:id="chooseTarget" layoutX="578.0" layoutY="177.0" mnemonicParsing="false" onAction="#chooseTargetFolder" text="Select" />
       <TextField fx:id="sourcePath" layoutX="83.0" layoutY="113.0" prefHeight="25.0" prefWidth="464.0" />
       <TextField fx:id="targetPath" layoutX="83.0" layoutY="177.0" prefHeight="25.0" prefWidth="464.0" />
       <Label layoutX="83.0" layoutY="83.0" prefHeight="17.0" prefWidth="151.0" text="Source Folder" />
       <Label layoutX="83.0" layoutY="151.0" text="Target Folder" />
       <Label fx:id="prompt" layoutX="83.0" layoutY="223.0" prefHeight="17.0" prefWidth="251.0" />
+      <ImageView fitHeight="76.0" fitWidth="180.0" layoutX="249.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/BackupHelperLogo.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
