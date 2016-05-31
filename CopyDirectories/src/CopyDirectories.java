@@ -1,4 +1,4 @@
-package sample;
+
 
 import java.io.*;
 import java.nio.file.Files;
@@ -14,7 +14,7 @@ public class CopyDirectories  {
 
     public static void main(String[] args) {
         String user = System.getProperty("user.home");
-        String projectFolder = "BackUpHelper";
+        String projectFolder = "BackUpHelper" + File.separator + "bin";
         File txt;
         String[] paths = new String[50];
         CopyDirectories cd = new CopyDirectories();
@@ -22,7 +22,6 @@ public class CopyDirectories  {
         Date date = new Date();
         txt = new File(user + File.separator +
                 projectFolder + File.separator + "paths.txt");
-
         try{
             BufferedReader br = new BufferedReader(new FileReader(txt));
             String line = null;
@@ -35,18 +34,19 @@ public class CopyDirectories  {
         }catch(IOException e){
             e.printStackTrace();
         }
+
         File source;
         File target;
         Long[] timestamps = new Long[paths.length/2];
         try{
-            timestamps = cd.readTimeStamp();
+            timestamps = cd.readTimeStamp(projectFolder);
         }catch (IOException e){
             e.printStackTrace();
         }
+
         int j = 0;
         int i = 0;
-
-        File timeStampFile = new File(System.getProperty("user.home") + File.separator + "BackUpHelper" + File.separator + "timestamps.txt");
+        File timeStampFile = new File(System.getProperty("user.home") + File.separator + projectFolder + File.separator + "timestamps.txt");
         if(timeStampFile.exists()){
             timeStampFile.delete();
         }
@@ -83,7 +83,6 @@ public class CopyDirectories  {
             }
             String[] sourceChild = source.list();
             for (int i = 0; i < sourceChild.length; i++) {
-                System.out.println(sourceChild[i]);
                 copyDirectory(new File(source, sourceChild[i]),
                         new File(target, sourceChild[i]));
             }
@@ -109,9 +108,9 @@ public class CopyDirectories  {
         List<String> lines = Arrays.asList(lastModified.toString());
         Files.write(timeStamp.toPath(), lines, StandardOpenOption.APPEND);
     }
-    private Long[] readTimeStamp() throws IOException{
+    private Long[] readTimeStamp(String projectFolder) throws IOException{
         Long[] ts = new Long[50];
-        File timeStamp = new File(System.getProperty("user.home") + File.separator + "BackUpHelper" + File.separator + "timestamps.txt");
+        File timeStamp = new File(System.getProperty("user.home") + File.separator + projectFolder + File.separator + "timestamps.txt");
         BufferedReader br = new BufferedReader(new FileReader(timeStamp));
         String line = null;
         int i = 0;

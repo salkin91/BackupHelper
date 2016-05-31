@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="CopyDirectories:jar">
+    <output-path>$PROJECT_DIR$/../BackUpHelper/src/sample</output-path>
+    <root id="root">
+      <element id="archive" name="CopyDirectories.jar">
+        <element id="module-output" name="CopyDirectories" />
+      </element>
+    </root>
+  </artifact>
+</component>

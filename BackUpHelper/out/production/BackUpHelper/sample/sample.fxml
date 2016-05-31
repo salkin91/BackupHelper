@@ -10,7 +10,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="364.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <Button fx:id="okey" layoutX="503.0" layoutY="270.0" mnemonicParsing="false" onMouseClicked="#generateFiles" text="Okey" />
+      <Button fx:id="okey" layoutX="503.0" layoutY="270.0" mnemonicParsing="false" onMouseClicked="#generateFiles" text="OK" />
       <Button layoutX="575.0" layoutY="270.0" mnemonicParsing="false" text="Cancel" />
       <Button fx:id="chooseSource" layoutX="578.0" layoutY="113.0" mnemonicParsing="false" onAction="#chooseSourceFolder" text="Open" />
       <Button fx:id="chooseTarget" layoutX="578.0" layoutY="177.0" mnemonicParsing="false" onAction="#chooseTargetFolder" text="Open" />
