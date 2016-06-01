@@ -1,13 +1,16 @@
 package sample;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
-public class Controller {
+public class MainController {
 
     @FXML TextField sourcePath;
     @FXML TextField targetPath;
@@ -37,6 +40,7 @@ public class Controller {
         targetPath.setText(getFolder());
     }
     private String getFolder(){
+        prompt.setText("");
         Main main = new Main();
         DirectoryChooser folder = new DirectoryChooser();
         folder.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -48,4 +52,12 @@ public class Controller {
         else
             return "";
     }
+
+    public void deletePaths() throws Exception{
+        Stage delete = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("deleteWindow.fxml"));
+        delete.setScene(new Scene(root, 460, 350));
+        delete.show();
+    }
+
 }

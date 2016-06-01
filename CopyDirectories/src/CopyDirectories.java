@@ -13,6 +13,7 @@ import java.util.List;
 public class CopyDirectories  {
 
     public static void main(String[] args) {
+
         String user = System.getProperty("user.home");
         String projectFolder = "BackupHelper" + File.separator + "bin";
         File txt;

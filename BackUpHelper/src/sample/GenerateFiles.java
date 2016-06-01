@@ -25,7 +25,6 @@ public class GenerateFiles {
 
         writePathTXT(source, target);
         writeTimeStamp(source);
-        //readFile();
         try{
             exportResource("CopyDirectories.jar");
 
@@ -92,7 +91,7 @@ public class GenerateFiles {
         }
     }
 
-    private void writePathTXT(String source, String target) throws IOException{
+    public void writePathTXT(String source, String target) throws IOException{
          txt = new File(user + File.separator +
                 projectFolder + File.separator + projectSubFolder + File.separator + "paths.txt");
         if(!txt.exists()){
@@ -102,19 +101,8 @@ public class GenerateFiles {
         List<String> lines = Arrays.asList(source.replace("\\", "\\\\"), target.replace("\\","\\\\"));
         Files.write(txt.toPath(), lines, StandardOpenOption.APPEND);
     }
-/*
-    private void readFile() throws IOException{
-    BufferedReader br = new BufferedReader(new FileReader(txt));
 
-    String line = null;
-    while ((line = br.readLine()) != null) {
-        System.out.println(line);
-    }
-
-    br.close();
-    }
-*/
-    private void writeTimeStamp(String source) throws IOException{
+    public void writeTimeStamp(String source) throws IOException{
         File sourceFile = new File(source);
         File timeStamps = new File(user + File.separator + projectFolder +
                 File.separator + projectSubFolder + File.separator + "timestamps.txt");

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="333.0" prefWidth="461.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DeleteController">
+   <children>
+      <ListView fx:id="pathList" prefHeight="291.0" prefWidth="461.0" />
+      <Button fx:id="okButton" layoutX="324.0" layoutY="305.0" mnemonicParsing="false" onAction="#okPressed" text="OK" />
+      <Button fx:id="cancelButton" layoutX="386.0" layoutY="306.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
+   </children>
+</Pane>
