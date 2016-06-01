@@ -17,5 +17,5 @@
 
 #### Mac/Linux
 * **Open the terminal.**
-* **cd to BackupHelper.**
+* **cd to user/BackupHelper.**
 * **Write "./run.sh" in the terminal.**
