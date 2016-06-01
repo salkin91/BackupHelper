@@ -4,6 +4,11 @@
 
 * **This program requires that latest version of Java is installed on the computer**
 
+## BackupHelper 1.0
+Download:
+
+https://github.com/salkin91/BackupHelper/releases/download/1.0/BackupHelper_1.0.zip
+
 ## How to run
 
 #### General
