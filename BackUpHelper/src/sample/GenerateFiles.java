@@ -4,8 +4,13 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Niklas on 2016-05-25.
@@ -63,6 +68,17 @@ public class GenerateFiles {
             List<String> lines = Arrays.asList("#!/bin/bash",
                     "while true", "do", "java -jar bin"+ File.separator + "CopyDirectories.jar", "sleep 60", "done");
             Files.createFile(run.toPath());
+            Set<PosixFilePermission> perms = new HashSet<PosixFilePermission>();
+            perms.add(PosixFilePermission.OWNER_EXECUTE);
+            perms.add(PosixFilePermission.OWNER_WRITE);
+            perms.add(PosixFilePermission.OWNER_READ);
+            perms.add(PosixFilePermission.OTHERS_EXECUTE);
+            perms.add(PosixFilePermission.OTHERS_WRITE);
+            perms.add(PosixFilePermission.OTHERS_READ);
+            perms.add(PosixFilePermission.GROUP_READ);
+            perms.add(PosixFilePermission.GROUP_WRITE);
+            perms.add(PosixFilePermission.GROUP_EXECUTE);
+            Files.setPosixFilePermissions(run.toPath(), perms);
             Files.write(run.toPath(), lines, Charset.forName("UTF-8"));
         }
     }
