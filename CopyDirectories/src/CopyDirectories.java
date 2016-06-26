@@ -16,50 +16,40 @@ public class CopyDirectories  {
 
         String user = System.getProperty("user.home");
         String projectFolder = "BackupHelper" + File.separator + "bin";
-        File txt;
         String[] paths = new String[50];
         CopyDirectories cd = new CopyDirectories();
         DateFormat dateFormat = new SimpleDateFormat("yyMMdd-HH.mm");
         Date date = new Date();
-        txt = new File(user + File.separator +
-                projectFolder + File.separator + "paths.txt");
+
         try{
-            BufferedReader br = new BufferedReader(new FileReader(txt));
-            String line = null;
-            int i = 0;
-            while ((line = br.readLine()) != null) {
-                paths[i] = line;
-                i++;
-            }
-            br.close();
+            paths = cd.readPaths(user, projectFolder);
         }catch(IOException e){
             e.printStackTrace();
         }
 
-        File source;
-        File target;
-        Long[] timestamps = new Long[paths.length/2];
+        File timeStampFile = new File(System.getProperty("user.home") + File.separator + projectFolder + File.separator + "timestamps.txt");
+        Long[] oldTimestamps = new Long[paths.length/2];
+        Long[] newTimestamps = new Long[paths.length/2];
         try{
-            timestamps = cd.readTimeStamp(projectFolder);
+            oldTimestamps = cd.readOldTimeStamps(projectFolder);
+            newTimestamps = cd.readNewTimeStamps(paths);
+            cd.deleteTimestampFile(timeStampFile);
         }catch (IOException e){
             e.printStackTrace();
         }
 
+
         int j = 0;
         int i = 0;
-        File timeStampFile = new File(System.getProperty("user.home") + File.separator + projectFolder + File.separator + "timestamps.txt");
-        if(timeStampFile.exists()){
-            timeStampFile.delete();
-        }
         while( j < paths.length && paths[j] != null) {
-            source = new File(paths[j]);
-            target = new File(paths[j + 1] + File.separator + dateFormat.format(date));
+            File source = new File(paths[j]);
+            File target = new File(paths[j + 1] + File.separator + dateFormat.format(date));
             try{
-                cd.writeTimeStamp(source, timeStampFile);
+                cd.writeTimeStamp(newTimestamps[i], timeStampFile);
             }catch (IOException e){
                 e.printStackTrace();
             }
-            if(timestamps[i] != source.lastModified()){
+            if(oldTimestamps[i] < newTimestamps[i]){
                 try {
                     Files.createDirectory(target.toPath());
                 } catch (IOException e) {
@@ -100,16 +90,36 @@ public class CopyDirectories  {
             out.close();
         }
     }
-    private void writeTimeStamp(File source, File timeStamp) throws IOException{
+
+    private void deleteTimestampFile(File timeStampFile) throws IOException {
+        if(timeStampFile.exists()){
+            timeStampFile.delete();
+        }
+    }
+
+    private String[] readPaths(String user, String projectFolder) throws IOException {
+        String[] paths = new String[50];
+        File txt = txt = new File(user + File.separator +
+                projectFolder + File.separator + "paths.txt");
+        BufferedReader br = new BufferedReader(new FileReader(txt));
+        String line = null;
+        int i = 0;
+        while ((line = br.readLine()) != null) {
+            paths[i] = line;
+            i++;
+        }
+        br.close();
+        return paths;
+    }
+
+    private void writeTimeStamp(Long lastModified, File timeStamp) throws IOException{
         if(!timeStamp.exists()){
             Files.createFile(timeStamp.toPath());
         }
-        Long lastModified = source.lastModified();
-        lastModified.toString();
         List<String> lines = Arrays.asList(lastModified.toString());
         Files.write(timeStamp.toPath(), lines, StandardOpenOption.APPEND);
     }
-    private Long[] readTimeStamp(String projectFolder) throws IOException{
+    private Long[] readOldTimeStamps(String projectFolder) throws IOException{
         Long[] ts = new Long[50];
         File timeStamp = new File(System.getProperty("user.home") + File.separator + projectFolder + File.separator + "timestamps.txt");
         BufferedReader br = new BufferedReader(new FileReader(timeStamp));
@@ -121,5 +131,24 @@ public class CopyDirectories  {
         }
         br.close();
         return ts;
+    }
+
+    private Long[] readNewTimeStamps(String[] paths){
+        Long[] timeStamps = new Long[25];
+        Long tmp;
+        int j = 0;
+        for(int i = 0; i < paths.length; i += 2){
+            File[] files = new File(paths[i]).listFiles();
+            tmp = files[0].lastModified();
+            for(File file : files){
+                if(tmp < file.lastModified()){
+                    tmp = file.lastModified();
+                }
+            }
+            timeStamps[j] = tmp;
+            j++;
+        }
+        return timeStamps;
+
     }
 }
